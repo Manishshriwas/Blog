@@ -1,0 +1,39 @@
+<!-- delete.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Blog</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h2>Delete Blog by ID</h2>
+<input type="number" id="delete-id" placeholder="Enter Blog ID" />
+<button onclick="deleteBlog()">Delete</button>
+<div>
+    <a href="create.html">Create Blog</a> | <a href="view.html">View All Blogs</a>|<a href="getID.html">View BY Id Blogs </a> | <a href="update.html">Delete Blog</a>
+</div>
+
+<script>
+    function deleteBlog() {
+      const id = document.getElementById('delete-id').value;
+
+      fetch(`http://localhost:8090/api/blogs/${id}`, {
+        method: 'DELETE'
+      })
+      .then(res => {
+        if (res.status === 204) {
+          alert("✅ Blog deleted!");
+        } else if (res.status === 404) {
+          alert("❌ Blog not found!");
+        } else {
+          alert("⚠️ Delete failed with status: " + res.status);
+        }
+      })
+      .catch(err => {
+        console.error("❌ Network error:", err);
+        alert("❌ Network error. Check console.");
+      });
+    }
+</script>
+</body>
+</html>
